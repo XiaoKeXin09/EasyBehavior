@@ -1,0 +1,41 @@
+apply plugin: 'com.android.application'
+
+def libs = rootProject.ext.libraries
+def testLibs = rootProject.ext.testingLibraries
+def cfg = rootProject.ext.configuration
+
+android {
+
+    compileSdkVersion ANDROID_BUILD_SDK_VERSION as int
+    buildToolsVersion ANDROID_BUILD_TOOLS_VERSION
+
+    defaultConfig {
+        minSdkVersion ANDROID_BUILD_MIN_SDK_VERSION as int
+        targetSdkVersion ANDROID_BUILD_TARGET_SDK_VERSION as int
+        versionCode VERSION_CODE as int
+        versionName VERSION_NAME
+        applicationId cfg.applicationId
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    //请在使用demo或相同配置时一定要加上这句
+    aaptOptions {
+        cruncherEnabled = false
+        useNewCruncher = false
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation libs["appcompat-v7"]
+    implementation libs["design"]
+    implementation libs["glide"]
+    implementation libs["statusbar_util"]
+    implementation project(':tabLayoutLibrary')
+    implementation libs["support-v4"]
+    implementation libs["recyclerview-v7"]
+}
